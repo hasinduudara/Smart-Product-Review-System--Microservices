@@ -78,7 +78,7 @@ smart-product-system/
 
 ## 👤 Author
 
-**[M.Hasindu Udara]** *Software Engineering Undergraduate*
+**M.Hasindu Udara** *Software Engineering Undergraduate*
 
 - 🐙 **GitHub:** [View Profile](https://github.com/hasinduudara)
 - 💼 **LinkedIn:** [Connect on LinkedIn](https://www.linkedin.com/in/hasindu-udara)
