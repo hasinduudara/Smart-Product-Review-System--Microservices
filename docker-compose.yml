@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  # 1. Java Service
+  product-service:
+    build: ./product-service-java
+    ports:
+      - "8080:8080"
+    container_name: product-service
+
+  # 2. Python Service
+  sentiment-service:
+    build: ./sentiment-service-python
+    ports:
+      - "5001:5001"
+    container_name: sentiment-service
+
+  # 3. Node Gateway
+  api-gateway:
+    build: ./api-gateway-node
+    ports:
+      - "5000:5000"
+    environment:
+      - PRODUCT_SERVICE_URL=http://product-service:8080
+      - SENTIMENT_SERVICE_URL=http://sentiment-service:5001
+    depends_on:
+      - product-service
+      - sentiment-service
+    volumes:
+      - ./api-gateway-node/reviews.json:/app/reviews.json 
+    container_name: api-gateway
+
+  # 4. React Frontend
+  frontend-client:
+    build: ./frontend-client
+    ports:
+      - "5173:5173"
+    depends_on:
+      - api-gateway
+    container_name: frontend-client
