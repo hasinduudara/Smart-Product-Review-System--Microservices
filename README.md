@@ -35,7 +35,7 @@ You don't need to install Java, Python, or Node.js locally. Docker handles every
 
 1.  **Clone the repository:**
     ```bash
-    git clone [https://github.com/hasinduudara/smart-product-system.git](https://github.com/hasinduudara/Smart-Product-Review-System--Microservices.git))
+    git clone https://github.com/hasinduudara/Smart-Product-Review-System--Microservices.git
     cd smart-product-system
     ```
 
