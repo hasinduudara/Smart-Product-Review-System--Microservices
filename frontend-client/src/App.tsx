@@ -62,7 +62,7 @@ function App() {
             });
             setName(''); setPrice(''); setDescription('');
             fetchProducts();
-            alert("Product Added Successfully!");
+            // alert("Product Added Successfully!"); // Removed alert for smoother UX
         } catch (error) {
             console.error("Error adding product", error);
         }
@@ -98,29 +98,52 @@ function App() {
 
     return (
         <div className="container">
-            <h1>🛒 Smart Product System</h1>
+            <h1>🛒 Smart <span>Product System</span></h1>
 
             {/* --- add product section --- */}
             <div className="card">
-                <h3>Add New Product</h3>
+                <h3>✨ Add New Product</h3>
                 <form onSubmit={handleAddProduct} className="form-row">
-                    <input placeholder="Product Name" value={name} onChange={e => setName(e.target.value)} required />
-                    <input placeholder="Price" type="number" value={price} onChange={e => setPrice(e.target.value)} required />
-                    <input placeholder="Description" value={description} onChange={e => setDescription(e.target.value)} required />
-                    <button type="submit">Add Product</button>
+                    <input 
+                        placeholder="Product Name" 
+                        value={name} 
+                        onChange={e => setName(e.target.value)} 
+                        required 
+                    />
+                    <input 
+                        placeholder="Price (Rs.)" 
+                        type="number" 
+                        value={price} 
+                        onChange={e => setPrice(e.target.value)} 
+                        required 
+                        style={{flex: '0 0 150px'}} /* Makes price field smaller */
+                    />
+                    <input 
+                        placeholder="Description" 
+                        value={description} 
+                        onChange={e => setDescription(e.target.value)} 
+                        required 
+                        style={{flex: 2}}
+                    />
+                    <button type="submit">Add Product +</button>
                 </form>
             </div>
 
             <div className="content-grid">
                 {/* --- Product list --- */}
                 <div className="product-list">
-                    <h3>Available Products</h3>
+                    <h3>📦 Available Products</h3>
+                    {products.length === 0 ? <p style={{textAlign:'center', color:'#888'}}>No products yet.</p> : null}
+                    
                     {products.map(product => (
-                        <div key={product.id} className="product-item" onClick={() => handleViewReviews(product.id)}>
+                        <div 
+                            key={product.id} 
+                            className={`product-item ${activeProductId === product.id ? 'active' : ''}`} 
+                            onClick={() => handleViewReviews(product.id)}
+                        >
+                            <span className="price-tag">Rs. {product.price}</span>
                             <h4>{product.name}</h4>
-                            <p>Price: Rs. {product.price}</p>
-                            <p className="desc">{product.description}</p>
-                            <button onClick={() => handleViewReviews(product.id)}>View Reviews</button>
+                            <p>{product.description}</p>
                         </div>
                     ))}
                 </div>
@@ -129,16 +152,14 @@ function App() {
                 <div className="review-section">
                     {activeProductId ? (
                         <>
-                            <h3>Reviews for Product ID: {activeProductId}</h3>
-
+                            <h3>💬 Reviews & AI Analysis</h3>
+                            
                             <div className="reviews-list">
-                                {reviews.length === 0 ? <p>No reviews yet.</p> : null}
+                                {reviews.length === 0 ? <p className="placeholder-text">No reviews yet. Be the first!</p> : null}
                                 {reviews.map((review, index) => (
                                     <div key={index} className={`review-card ${review.sentiment.toLowerCase()}`}>
-                                        <p><strong>Comment:</strong> "{review.comment}"</p>
-                                        <p><strong>AI Sentiment:</strong>
-                                            <span className={`tag ${review.sentiment.toLowerCase()}`}>{review.sentiment}</span>
-                                        </p>
+                                        <div className="review-content">"{review.comment}"</div>
+                                        <span className="sentiment-badge">{review.sentiment}</span>
                                     </div>
                                 ))}
                             </div>
@@ -150,11 +171,14 @@ function App() {
                                     onChange={e => setNewReview(e.target.value)}
                                     required
                                 />
-                                <button type="submit">Submit Review</button>
+                                <button type="submit">Post Review ↵</button>
                             </form>
                         </>
                     ) : (
-                        <p className="placeholder-text">Select a product to see reviews and AI analysis.</p>
+                        <div className="placeholder-text">
+                            <span style={{fontSize: '3rem'}}>👈</span>
+                            Select a product from the list <br/> to see AI-powered reviews.
+                        </div>
                     )}
                 </div>
             </div>
